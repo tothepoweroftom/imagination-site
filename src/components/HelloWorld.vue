@@ -123,7 +123,7 @@ export default {
           this.articleIndex = 0;
         }
 
-        this.sceneManager.news();
+        // this.sceneManager.news();
         let topArticle = this.articles[this.articleIndex].title;
         let split = Rita.tokenize(topArticle);
         let tags = Rita.getPosTags(topArticle);
@@ -200,7 +200,7 @@ a {
   top: 10%;
   position: absolute;
   background: rgba(0, 0, 0, 0);
-  color: white;
+  color: black;
   font-size: 40px;
 }
 </style>
