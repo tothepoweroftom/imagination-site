@@ -36,7 +36,7 @@ export default {
     render: function() {
       // this.stats.begin();
       requestAnimationFrame(this.render);
-      this.sceneManager.update();
+      // this.sceneManager.update();
       // this.stats.end();
     },
 
@@ -151,7 +151,7 @@ export default {
 
   mounted() {
     var canvas = document.getElementById("canvas");
-    this.sceneManager = new SceneManager(canvas);
+    // this.sceneManager = new SceneManager(canvas);
 
     this.render();
     this.setupShake();
