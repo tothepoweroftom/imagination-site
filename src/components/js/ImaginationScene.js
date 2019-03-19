@@ -17,7 +17,7 @@ export default function ImaginationScene(scene) {
 
   this.load = () => {
     // instantiate a loader
-    var panoTexture = new THREE.TextureLoader().load("src/assets/green.png");
+    var panoTexture = new THREE.TextureLoader().load("static/pano.jpg");
 
     var uniforms = THREE.UniformsUtils.merge([
       THREE.UniformsLib["lights"],

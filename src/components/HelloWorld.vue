@@ -12,7 +12,7 @@ import Stats from "stats-js";
 import Shake from "shake.js";
 import ColorPalette from "./js/ColorPalette.js";
 import Rita from "rita";
-import LSTM from "./js/LSTM.js";
+import RitaTextGenerator from './js/RitaTextGenerator.js'
 
 export default {
   name: "HelloWorld",
@@ -27,7 +27,8 @@ export default {
       question: null,
       articleIndex: 0,
       articles: null,
-      lstm: null
+      lstm: null,
+      textGen: null,
     };
   },
 
@@ -112,25 +113,7 @@ export default {
             this.articleIndex = 0;
           }
           this.articles = myJson.articles;
-          // let topArticle = myJson.articles[this.articleIndex].title;
-          // let split = Rita.tokenize(topArticle);
-          // let tags = Rita.getPosTags(topArticle);
-          // let nouns = [];
-          // tags.forEach((element, index) => {
-          //   // console.log(element);
-          //   if (element.includes("nn")) {
-          //     nouns.push(split[index]);
-          //   }
-          // });
 
-          // console.log(nouns);
-
-          // if (nouns.length > 1) {
-          //   this.question = `What if ${nouns[0]} ${nouns[1]}`;
-          // } else {
-          //   this.question = `What if ${nouns[0]}`;
-          // }
-          // console.log(this.question);
         });
     },
 
@@ -161,51 +144,11 @@ export default {
         } else {
           this.question = ` ${nouns[0]}`;
         }
-        this.lstm.generate(this.articles[this.articleIndex].title + " ", this.formQuestion)
-
+        this.question = this.textGen.generate(this.question);
       }
     }, 
-
-    formQuestion(err, result) {
-      console.log(result.sample);
-            this.lstm.runningInference = false;
-
-      let split = Rita.tokenize(result.sample);
-        let tags = Rita.getPosTags(result.sample);
-        let nouns = [];
-        let verbs = [];
-        let adj = []
-
-        tags.forEach((element, index) => {
-          // console.log(element);
-          if (element.includes("nn")) {
-                           if(split[index].length > 3){
-
-            nouns.push(split[index]);
-                           }
-          }
-             if (element.includes("vb")) {
-               if(split[index].length > 3){
-            verbs.push(split[index]);
-
-          }
-             }
-             if (element.includes("jj") || element.includes("rb")) {
-               if(split[index].length > 3){
-            adj.push(split[index]);
-
-               }
-          }
-             
-        });
-
-      
-      let adverb = adj[0] ? adj[0] : ' '
-      this.question = "What if "  + this.question + ` could be a ${adverb} ${nouns[0]} ?`;
-
-      
-    }
   },
+
   mounted() {
     var canvas = document.getElementById("canvas");
     this.sceneManager = new SceneManager(canvas);
@@ -214,11 +157,12 @@ export default {
     this.setupShake();
     this.setupLonghold();
     // this.getTrendingNews();
-    this.lstm = new LSTM();
+    this.textGen = new RitaTextGenerator();
 
     
     this.getTrendingNews();
   }
+
 };
 </script>
 
